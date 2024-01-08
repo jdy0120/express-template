@@ -1,14 +1,14 @@
 import { Router, Request, Response } from "express";
 import { ParamsDictionary } from "express-serve-static-core";
 
-import exampleController from "../controllers/example.controller";
-import { ListQuery } from "../../shared/dtos/common.dto";
+import exampleController from "../../controllers/example.controller";
+import { ListQuery } from "../../../shared/dtos/common.dto";
 
-const router = Router();
+export const router = Router();
 
 // GET - users
 router.get(
-  "/",
+  "/users",
   async (
     req: Request<unknown, unknown, unknown, ListQuery>,
     res: Response
@@ -21,7 +21,7 @@ router.get(
 );
 // GET - users/:id
 router.get(
-  "/:id",
+  "/user/:id",
   async (
     req: Request<ParamsDictionary, unknown, unknown, unknown>,
     res: Response
@@ -34,7 +34,7 @@ router.get(
 );
 
 router.delete(
-  "/:id",
+  "/user/:id",
   async (
     req: Request<ParamsDictionary, unknown, unknown, unknown>,
     res: Response
@@ -50,7 +50,7 @@ router.delete(
 );
 
 // POST - users
-router.post("/", async (req: Request, res: Response) => {
+router.post("/user", async (req: Request, res: Response) => {
   const data = await exampleController.write(req);
   // TO DO
   res.status(201).json({
@@ -60,4 +60,3 @@ router.post("/", async (req: Request, res: Response) => {
     },
   });
 });
-export default router;
