@@ -1,5 +1,8 @@
 import { Request } from "express";
+import { ParamsDictionary } from "express-serve-static-core";
+
 import exampleService from "../services/example.service";
+import { ListQuery } from "../../shared/dtos/common.dto";
 
 const write = async (req: Request) => {
   const data = await exampleService.write(req);
@@ -7,8 +10,21 @@ const write = async (req: Request) => {
   return data;
 };
 
-const readAll = async (req: Request) => {
-  const data = await exampleService.readAll(req);
+const readAll = async (query: ListQuery) => {
+  console.log(query);
+  const data = await exampleService.readAll();
+
+  return data;
+};
+
+const readOne = async (params: ParamsDictionary) => {
+  const data = await exampleService.readOne(params);
+
+  return data;
+};
+
+const erase = async (params: ParamsDictionary) => {
+  const data = await exampleService.erase(params);
 
   return data;
 };
@@ -16,4 +32,6 @@ const readAll = async (req: Request) => {
 export default {
   write,
   readAll,
+  readOne,
+  erase,
 };

@@ -63,4 +63,23 @@ export class Example extends SQLZ_TS.Model<
   ) {
     return this.findAll(options);
   }
+
+  static async readOne(
+    id: number,
+    options?: Omit<SQLZ.FindOptions<ExampleAttributes>, "where">
+  ) {
+    return this.findByPk(id, {
+      ...options,
+    });
+  }
+
+  static async erase(
+    id: number,
+    options?: Omit<SQLZ.DestroyOptions<ExampleAttributes>, "where">
+  ) {
+    return this.destroy({
+      where: { id },
+      ...options,
+    });
+  }
 }

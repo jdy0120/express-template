@@ -1,23 +1,57 @@
-import { Router, Response } from "express";
+import { Router, Request, Response } from "express";
+import { ParamsDictionary } from "express-serve-static-core";
 
 import exampleController from "../controllers/example.controller";
+import { ListQuery } from "../../shared/dtos/common.dto";
 
 const router = Router();
 
 // GET - users
-router.get("/", async (_req, res: Response) => {
-  const data = await exampleController.readAll(_req);
-  res.status(200).json({ users: data });
-});
+router.get(
+  "/",
+  async (
+    req: Request<unknown, unknown, unknown, ListQuery>,
+    res: Response
+  ) => {
+    const { query } = req;
+
+    const data = await exampleController.readAll(query);
+    res.status(200).json({ users: data });
+  }
+);
 // GET - users/:id
-router.get("/:id", async (_req, res: Response) => {
-  // TO DO
-  const result: string = "";
-  res.status(200).json({ user: result });
-});
+router.get(
+  "/:id",
+  async (
+    req: Request<ParamsDictionary, unknown, unknown, unknown>,
+    res: Response
+  ) => {
+    const { params } = req;
+
+    const data = await exampleController.readOne(params);
+    res.status(200).json({ user: data });
+  }
+);
+
+router.delete(
+  "/:id",
+  async (
+    req: Request<ParamsDictionary, unknown, unknown, unknown>,
+    res: Response
+  ) => {
+    const { params } = req;
+
+    const data = await exampleController.erase(params);
+
+    res.status(204).json({
+      message: data,
+    });
+  }
+);
+
 // POST - users
-router.post("/", async (_req, res: Response) => {
-  const data = await exampleController.write(_req);
+router.post("/", async (req: Request, res: Response) => {
+  const data = await exampleController.write(req);
   // TO DO
   res.status(201).json({
     user: {
